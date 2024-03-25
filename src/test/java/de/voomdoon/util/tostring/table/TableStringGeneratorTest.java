@@ -212,6 +212,21 @@ class TableStringGeneratorTest extends TestBase {
 	 * @since 0.1.0
 	 */
 	@Test
+	void testSetColumnSeparator() throws Exception {
+		logTestStart();
+
+		TableStringGenerator generator = new TableStringGenerator();
+		generator.setColumnSeparator(":");
+
+		String actual = generator.toString(new String[][] { { "a", "b" } });
+
+		assertThat(actual).isEqualTo("a:b");
+	}
+
+	/**
+	 * @since 0.1.0
+	 */
+	@Test
 	void testSetNullValue() throws Exception {
 		logTestStart();
 

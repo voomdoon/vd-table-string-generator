@@ -202,7 +202,22 @@ public class TableStringGenerator {
 	/**
 	 * @since 0.1.0
 	 */
+	private String columnSeparator = " │ ";
+
+	/**
+	 * @since 0.1.0
+	 */
 	private String nullValue = "null";
+
+	/**
+	 * DOCME add JavaDoc for method setColumnSeparator
+	 * 
+	 * @param columnSeparator
+	 * @since 0.1.0
+	 */
+	public void setColumnSeparator(String columnSeparator) {
+		this.columnSeparator = columnSeparator;
+	}
 
 	/**
 	 * DOCME add JavaDoc for method setNullValue
@@ -300,7 +315,7 @@ public class TableStringGenerator {
 			appendCell(row, sb, iColumn, context);
 
 			if (iColumn < row.length - 1) {
-				sb.append(" │ ");
+				sb.append(columnSeparator);
 			}
 		}
 
