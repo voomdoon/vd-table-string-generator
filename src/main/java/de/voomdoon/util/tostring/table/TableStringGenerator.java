@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-//FEATURE null value
 //FEATURE date and time right alignment 
 
 /**
@@ -43,7 +42,7 @@ public class TableStringGenerator {
 				 * @since 0.1.0
 				 */
 				private int getTextWidth(List<String> column) {
-					return column.stream().mapToInt(String::length).max().orElse(0);
+					return column.stream().mapToInt(TableStringGenerator::getLength).max().orElse(0);
 				}
 
 				/**
@@ -62,8 +61,9 @@ public class TableStringGenerator {
 				 */
 				private void initNumberWidths(String cell) {
 					// TODO rework
-
-					if (INTEGER_PATTERN.matcher(cell).matches()) {
+					if (cell == null) {
+						return;
+					} else if (INTEGER_PATTERN.matcher(cell).matches()) {
 						int left = cell.length();
 						numberWidthLeft = Math.max(numberWidthLeft, left);
 					} else if (REAL_PATTERN.matcher(cell).matches()) {
@@ -122,7 +122,9 @@ public class TableStringGenerator {
 			public Padding getPadding(String cell) {
 				// TODO rework
 
-				if (INTEGER_PATTERN.matcher(cell).matches()) {
+				if (cell == null) {
+					return getTextPadding(cell);
+				} else if (INTEGER_PATTERN.matcher(cell).matches()) {
 					return getIntegerPadding(cell);
 				} else if (REAL_PATTERN.matcher(cell).matches()) {
 					return getRealPadding(cell);
@@ -163,7 +165,7 @@ public class TableStringGenerator {
 			private Padding getTextPadding(String cell) {
 				return new Padding(//
 						"", //
-						" ".repeat(textWidth - cell.length()));
+						" ".repeat(textWidth - getLength(cell)));
 			}
 		}
 
@@ -187,10 +189,29 @@ public class TableStringGenerator {
 	public static final TableStringGenerator DEFAULT = new TableStringGenerator();
 
 	/**
+	 * DOCME add JavaDoc for method getLength
+	 * 
+	 * @param string
+	 * @return
 	 * @since 0.1.0
 	 */
-	private TableStringGenerator() {
-		// nothing to do
+	private static int getLength(String string) {
+		return string == null ? 0 : string.length();
+	}
+
+	/**
+	 * @since 0.1.0
+	 */
+	private String nullValue = "null";
+
+	/**
+	 * DOCME add JavaDoc for method setNullValue
+	 * 
+	 * @param nullValue
+	 * @since 0.1.0
+	 */
+	public void setNullValue(String nullValue) {
+		this.nullValue = nullValue;
 	}
 
 	/**
@@ -247,7 +268,7 @@ public class TableStringGenerator {
 	private void appendCell(String[] row, StringBuilder sb, int iColumn, Context context) {
 		Padding padding = getPadding(row, iColumn, context);
 
-		sb.append(padding.before + row[iColumn] + padding.after);
+		sb.append(padding.before + format(row[iColumn]) + padding.after);
 	}
 
 	/**
@@ -284,6 +305,21 @@ public class TableStringGenerator {
 		}
 
 		sb.append("\n");
+	}
+
+	/**
+	 * DOCME add JavaDoc for method format
+	 * 
+	 * @param string
+	 * @return
+	 * @since 0.1.0
+	 */
+	private String format(String string) {
+		if (string == null) {
+			return nullValue;
+		} else {
+			return string;
+		}
 	}
 
 	/**

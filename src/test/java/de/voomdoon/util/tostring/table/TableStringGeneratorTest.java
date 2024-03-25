@@ -1,6 +1,7 @@
 package de.voomdoon.util.tostring.table;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import de.voomdoon.testing.tests.TestBase;
  *
  * @since 0.1.0
  */
-class TableStringGeneratorTest {
+class TableStringGeneratorTest extends TestBase {
 
 	/**
 	 * @author André Schulz
@@ -97,6 +98,16 @@ class TableStringGeneratorTest {
 			String actual = toString(new String[0][0]);
 
 			assertThat(actual).isBlank();
+		}
+
+		/**
+		 * @since 0.1.0
+		 */
+		@Test
+		void test_null_noError() throws Exception {
+			logTestStart();
+
+			assertDoesNotThrow(() -> toString(new String[][] { { null } }));
 		}
 
 		/**
@@ -195,5 +206,20 @@ class TableStringGeneratorTest {
 
 			return actual;
 		}
+	}
+
+	/**
+	 * @since 0.1.0
+	 */
+	@Test
+	void testSetNullValue() throws Exception {
+		logTestStart();
+
+		TableStringGenerator generator = new TableStringGenerator();
+		generator.setNullValue("NULL");
+
+		String actual = generator.toString(new String[][] { { "test", null } });
+
+		assertThat(actual).isEqualTo("test │ NULL");
 	}
 }
