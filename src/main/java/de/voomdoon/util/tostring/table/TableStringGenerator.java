@@ -2,6 +2,7 @@ package de.voomdoon.util.tostring.table;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 //FEATURE date and time right alignment 
@@ -189,6 +190,46 @@ public class TableStringGenerator {
 	public static final TableStringGenerator DEFAULT = new TableStringGenerator();
 
 	/**
+	 * DOCME add JavaDoc for method countLeadingSpaces
+	 * 
+	 * @param string
+	 * @return
+	 * @since 0.1.0
+	 * @deprecated TODO move to StringUtil
+	 */
+	@Deprecated
+	public static int countLeadingSpaces(String string) {
+		int count = 0;
+		Matcher m = Pattern.compile("^ *").matcher(string);
+
+		if (m.find()) {
+			count = m.group().length();
+		}
+
+		return count;
+	}
+
+	/**
+	 * DOCME add JavaDoc for method countLeadingSpaces
+	 * 
+	 * @param string
+	 * @return
+	 * @since 0.1.0
+	 * @deprecated TODO move to StringUtil
+	 */
+	@Deprecated
+	public static int countTrailingSpaces(String string) {
+		int count = 0;
+		Matcher m = Pattern.compile(" *$").matcher(string);
+
+		if (m.find()) {
+			count = m.group().length();
+		}
+
+		return count;
+	}
+
+	/**
 	 * DOCME add JavaDoc for method getLength
 	 * 
 	 * @param string
@@ -297,7 +338,9 @@ public class TableStringGenerator {
 			sb.append("─".repeat(context.columns[iColumn].textWidth));
 
 			if (iColumn < headline.length - 1) {
-				sb.append("─┼─");
+				sb.append("─".repeat(countLeadingSpaces(columnSeparator)));
+				sb.append("┼");
+				sb.append("─".repeat(countTrailingSpaces(columnSeparator)));
 			}
 		}
 
