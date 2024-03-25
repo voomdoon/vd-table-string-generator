@@ -190,6 +190,11 @@ public class TableStringGenerator {
 	public static final TableStringGenerator DEFAULT = new TableStringGenerator();
 
 	/**
+	 * @since 0.1.0
+	 */
+	private static final String DEFAULT_COLUMN_SEPARATOR = " │ ";
+
+	/**
 	 * DOCME add JavaDoc for method countLeadingSpaces
 	 * 
 	 * @param string
@@ -243,7 +248,7 @@ public class TableStringGenerator {
 	/**
 	 * @since 0.1.0
 	 */
-	private String columnSeparator = " │ ";
+	private String columnSeparator = DEFAULT_COLUMN_SEPARATOR;
 
 	/**
 	 * @since 0.1.0
@@ -339,7 +344,13 @@ public class TableStringGenerator {
 
 			if (iColumn < headline.length - 1) {
 				sb.append("─".repeat(countLeadingSpaces(columnSeparator)));
-				sb.append("┼");
+
+				if (columnSeparator.equals(DEFAULT_COLUMN_SEPARATOR)) {
+					sb.append("┼");
+				} else {
+					sb.append(columnSeparator);
+				}
+
 				sb.append("─".repeat(countTrailingSpaces(columnSeparator)));
 			}
 		}

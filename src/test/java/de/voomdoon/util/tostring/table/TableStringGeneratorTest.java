@@ -235,7 +235,22 @@ class TableStringGeneratorTest extends TestBase {
 
 		String actual = generator.toString(new String[][] { { "a", "b" } }, new String[] { "A", "B" });
 
-		assertThat(actual).isEqualTo("A:B\n─┼─\na:b");
+		assertThat(actual).isEqualTo("A:B\n─:─\na:b");
+	}
+
+	/**
+	 * @since 0.1.0
+	 */
+	@Test
+	void testSetColumnSeparatorWithMoreThanOneCharacter_withHeadline() throws Exception {
+		logTestStart();
+
+		TableStringGenerator generator = new TableStringGenerator();
+		generator.setColumnSeparator("::");
+
+		String actual = generator.toString(new String[][] { { "a", "b" } }, new String[] { "A", "B" });
+
+		assertThat(actual).isEqualTo("A::B\n─::─\na::b");
 	}
 
 	/**
