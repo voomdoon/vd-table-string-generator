@@ -18,11 +18,15 @@
 	</properties>
 
 	<dependencies>
+		<!-- + + + + + + + + + + compile dependencies + + + + + + + + + + -->
+		<!-- + + + + + internal voomdoon compile dependencies + + + + + -->
 		<dependency>
 			<groupId>de.voomdoon.util</groupId>
 			<artifactId>vd-commons-util</artifactId>
 			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
+		<!-- - - - - - internal voomdoon compile dependencies - - - - - -->
+		<!-- - - - - - - - - - - compile dependencies - - - - - - - - - - -->
 
 		<!-- + + + + + + + + + + test dependencies + + + + + + + + + + -->
 		<!-- + + + + + internal voomdoon test dependencies + + + + + -->
