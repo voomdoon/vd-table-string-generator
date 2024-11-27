@@ -10,6 +10,8 @@ import de.voomdoon.util.commons.string.StringUtil;
 
 //FIXME length of null
 
+//FIXME do not allow config change on instances 
+
 /**
  * DOCME add JavaDoc for
  *
@@ -24,14 +26,14 @@ public class TableStringGenerator {
 	 *
 	 * @since 0.1.0
 	 */
-	private static class Context {
+	private class Context {
 
 		/**
 		 * @author André Schulz
 		 *
 		 * @since 0.1.0
 		 */
-		private static class ColumnContext {
+		private class ColumnContext {
 
 			/**
 			 * @author André Schulz
@@ -46,7 +48,7 @@ public class TableStringGenerator {
 				 * @since 0.1.0
 				 */
 				private int getTextWidth(List<String> column) {
-					return column.stream().mapToInt(TableStringGenerator::getLength).max().orElse(0);
+					return column.stream().mapToInt(TableStringGenerator.this::getLength).max().orElse(0);
 				}
 
 				/**
@@ -177,6 +179,21 @@ public class TableStringGenerator {
 		 * @since 0.1.0
 		 */
 		private ColumnContext[] columns;
+
+		/**
+		 * DOCME add JavaDoc for method getColumnContext
+		 * 
+		 * @param body
+		 * @param headline
+		 * @param iColumn
+		 * @return
+		 * @since 0.1.0
+		 */
+		private Context.ColumnContext createColumnContext(String[][] body, String[] headline, int iColumn) {
+			List<String> column = getColumn(body, headline, iColumn);
+
+			return new ColumnContext(column);
+		}
 	}
 
 	/**
@@ -196,17 +213,6 @@ public class TableStringGenerator {
 	 * @since 0.1.0
 	 */
 	private static final String DEFAULT_COLUMN_SEPARATOR = " │ ";
-
-	/**
-	 * DOCME add JavaDoc for method getLength
-	 * 
-	 * @param string
-	 * @return
-	 * @since 0.1.0
-	 */
-	private static int getLength(String string) {
-		return string == null ? 0 : string.length();
-	}
 
 	/**
 	 * @since 0.1.0
@@ -232,10 +238,13 @@ public class TableStringGenerator {
 	 * DOCME add JavaDoc for method setNullValue
 	 * 
 	 * @param nullValue
+	 * @return
 	 * @since 0.1.0
 	 */
-	public void setNullValue(String nullValue) {
+	public TableStringGenerator setNullValue(String nullValue) {
 		this.nullValue = nullValue;
+
+		return this;
 	}
 
 	/**
@@ -264,7 +273,7 @@ public class TableStringGenerator {
 
 		StringBuilder sb = new StringBuilder();
 
-		Context context = getContext(body, headline);
+		Context context = createContext(body, headline);
 
 		if (headline != null) {
 			appendRow(headline, sb, context);
@@ -340,6 +349,25 @@ public class TableStringGenerator {
 	}
 
 	/**
+	 * DOCME add JavaDoc for method getContext
+	 * 
+	 * @param body
+	 * @param headline
+	 * @return
+	 * @since 0.1.0
+	 */
+	private Context createContext(String[][] body, String[] headline) {
+		Context context = new Context();
+		context.columns = new Context.ColumnContext[getColumnCount(body, headline)];
+
+		for (int iColumn = 0; iColumn < context.columns.length; iColumn++) {
+			context.columns[iColumn] = context.createColumnContext(body, headline, iColumn);
+		}
+
+		return context;
+	}
+
+	/**
 	 * DOCME add JavaDoc for method format
 	 * 
 	 * @param string
@@ -376,21 +404,6 @@ public class TableStringGenerator {
 	}
 
 	/**
-	 * DOCME add JavaDoc for method getColumnContext
-	 * 
-	 * @param body
-	 * @param headline
-	 * @param iColumn
-	 * @return
-	 * @since 0.1.0
-	 */
-	private Context.ColumnContext getColumnContext(String[][] body, String[] headline, int iColumn) {
-		List<String> column = getColumn(body, headline, iColumn);
-
-		return new Context.ColumnContext(column);
-	}
-
-	/**
 	 * @param body
 	 * @param headline
 	 * @return
@@ -412,22 +425,14 @@ public class TableStringGenerator {
 	}
 
 	/**
-	 * DOCME add JavaDoc for method getContext
+	 * DOCME add JavaDoc for method getLength
 	 * 
-	 * @param body
-	 * @param headline
+	 * @param string
 	 * @return
 	 * @since 0.1.0
 	 */
-	private Context getContext(String[][] body, String[] headline) {
-		Context context = new Context();
-		context.columns = new Context.ColumnContext[getColumnCount(body, headline)];
-
-		for (int iColumn = 0; iColumn < context.columns.length; iColumn++) {
-			context.columns[iColumn] = getColumnContext(body, headline, iColumn);
-		}
-
-		return context;
+	private int getLength(String string) {
+		return string == null ? nullValue.length() : string.length();
 	}
 
 	/**

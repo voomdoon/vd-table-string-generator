@@ -139,6 +139,22 @@ class TableStringGeneratorTest extends TestBase {
 		}
 
 		/**
+		 * @since DOCME add inception version number
+		 */
+		@Test
+		void test_padding_nullValue() throws Exception {
+			logTestStart();
+
+			TableStringGenerator generator = TableStringGenerator.DEFAULT.setNullValue("NULL");
+
+			String[][] body = { { "1", "2", "3" }, { "1", null, "3" }, { "1", "2", "3" } };
+
+			String actual = toString(body, generator);
+
+			assertThat(actual).isEqualTo("1 │    2 │ 3\n1 │ NULL │ 3\n1 │    2 │ 3");
+		}
+
+		/**
 		 * @since 0.1.0
 		 */
 		@Test
@@ -214,7 +230,17 @@ class TableStringGeneratorTest extends TestBase {
 		 * @since 0.1.0
 		 */
 		private String toString(String[][] table) {
-			String actual = TableStringGenerator.DEFAULT.toString(table);
+			return toString(table, TableStringGenerator.DEFAULT);
+		}
+
+		/**
+		 * @param table
+		 * @param generator
+		 * @return
+		 * @since 0.1.0
+		 */
+		private String toString(String[][] table, TableStringGenerator generator) {
+			String actual = generator.toString(table);
 
 			logger.debug("actual:\n" + actual);
 
