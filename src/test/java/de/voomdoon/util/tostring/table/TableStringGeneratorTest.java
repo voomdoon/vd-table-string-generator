@@ -2,7 +2,6 @@ package de.voomdoon.util.tostring.table;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -167,10 +166,14 @@ class TableStringGeneratorTest extends TestBase {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_null_noError() throws Exception {
+		void test_null() throws Exception {
 			logTestStart();
 
-			assertDoesNotThrow(() -> toString(new String[][] { { null } }));
+			String[][] body = { { "1", null, "2" } };
+
+			String actual = toString(body);
+
+			assertThat(actual).isEqualTo("1 │  │ 2");
 		}
 
 		/**
@@ -304,7 +307,7 @@ class TableStringGeneratorTest extends TestBase {
 	void testSetColumnSeparator() throws Exception {
 		logTestStart();
 
-		TableStringGenerator generator = new TableStringGenerator();
+		TableStringGenerator generator = TableStringGenerator.builder().build();
 		generator.setColumnSeparator(":");
 
 		String actual = generator.toString(new String[][] { { "a", "b" } });
@@ -319,7 +322,7 @@ class TableStringGeneratorTest extends TestBase {
 	void testSetColumnSeparator_withHeadline() throws Exception {
 		logTestStart();
 
-		TableStringGenerator generator = new TableStringGenerator();
+		TableStringGenerator generator = TableStringGenerator.builder().build();
 		generator.setColumnSeparator(":");
 
 		String actual = generator.toString(new String[][] { { "a", "b" } }, new String[] { "A", "B" });
@@ -334,7 +337,7 @@ class TableStringGeneratorTest extends TestBase {
 	void testSetColumnSeparatorWithMoreThanOneCharacter_withHeadline() throws Exception {
 		logTestStart();
 
-		TableStringGenerator generator = new TableStringGenerator();
+		TableStringGenerator generator = TableStringGenerator.builder().build();
 		generator.setColumnSeparator("::");
 
 		String actual = generator.toString(new String[][] { { "a", "b" } }, new String[] { "A", "B" });

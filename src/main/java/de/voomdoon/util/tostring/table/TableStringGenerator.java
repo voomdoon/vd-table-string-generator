@@ -33,7 +33,7 @@ public class TableStringGenerator {
 		/**
 		 * @since 0.1.0
 		 */
-		private String nullValue = "null";
+		private String nullValue = DEFAULT_NULL_VALUE;
 
 		/**
 		 * DOCME add JavaDoc for method build
@@ -41,7 +41,7 @@ public class TableStringGenerator {
 		 * @since 0.1.0
 		 */
 		public TableStringGenerator build() {
-			return new TableStringGenerator().setNullValue(nullValue);
+			return new TableStringGenerator(nullValue);
 		}
 
 		/**
@@ -265,12 +265,17 @@ public class TableStringGenerator {
 	/**
 	 * @since 0.1.0
 	 */
-	public static final TableStringGenerator DEFAULT = new TableStringGenerator();
+	public static final TableStringGenerator DEFAULT = builder().build();
 
 	/**
 	 * @since 0.1.0
 	 */
 	private static final String DEFAULT_COLUMN_SEPARATOR = " │ ";
+
+	/**
+	 * @since 0.1.0
+	 */
+	private static final String DEFAULT_NULL_VALUE = "";
 
 	/**
 	 * DOCME add JavaDoc for method builder
@@ -289,7 +294,17 @@ public class TableStringGenerator {
 	/**
 	 * @since 0.1.0
 	 */
-	private String nullValue = "null";
+	private final String nullValue;
+
+	/**
+	 * DOCME add JavaDoc for constructor TableStringGenerator
+	 * 
+	 * @param nullValue
+	 * @since DOCME add inception version number
+	 */
+	private TableStringGenerator(String nullValue) {
+		this.nullValue = nullValue;
+	}
 
 	/**
 	 * DOCME add JavaDoc for method setColumnSeparator
@@ -479,18 +494,5 @@ public class TableStringGenerator {
 	 */
 	private Padding getPadding(String[] row, int iColumn, Context context) {
 		return context.columns[iColumn].getPadding(row[iColumn]);
-	}
-
-	/**
-	 * DOCME add JavaDoc for method setNullValue
-	 * 
-	 * @param nullValue
-	 * @return
-	 * @since 0.1.0
-	 */
-	private TableStringGenerator setNullValue(String nullValue) {
-		this.nullValue = nullValue;
-
-		return this;
 	}
 }
