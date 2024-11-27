@@ -10,7 +10,7 @@
 	</parent>
 
 	<groupId>de.voomdoon.util</groupId>
-	<artifactId>table-string-generator</artifactId>
+	<artifactId>vd-table-string-generator</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 
 	<properties>
