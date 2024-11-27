@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import de.voomdoon.testing.tests.TestBase;
+import de.voomdoon.util.tostring.table.TableStringGenerator.Builder;
 
 /**
  * DOCME add JavaDoc for
@@ -17,6 +18,54 @@ import de.voomdoon.testing.tests.TestBase;
  * @since 0.1.0
  */
 class TableStringGeneratorTest extends TestBase {
+
+	/**
+	 * DOCME add JavaDoc for TableStringGeneratorTest
+	 *
+	 * @author André Schulz
+	 *
+	 * @since 0.1.0
+	 */
+	@Nested
+	class BuilderTest extends TestBase {
+
+		/**
+		 * DOCME add JavaDoc for TableStringGeneratorTest
+		 *
+		 * @author André Schulz
+		 *
+		 * @since 0.1.0
+		 */
+		@Nested
+		class SetNullValueTest extends TestBase {
+
+			/**
+			 * @since 0.1.0
+			 */
+			@Test
+			void test_toString() throws Exception {
+				logTestStart();
+
+				TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
+
+				String actual = generator.toString(new String[][] { { "test", null } });
+
+				assertThat(actual).isEqualTo("test │ NULL");
+			}
+		}
+
+		/**
+		 * @since 0.1.0
+		 */
+		@Test
+		void test_builder() throws Exception {
+			logTestStart();
+
+			Builder actual = TableStringGenerator.builder();
+
+			assertThat(actual).isNotNull();
+		}
+	}
 
 	/**
 	 * @author André Schulz
@@ -139,13 +188,13 @@ class TableStringGeneratorTest extends TestBase {
 		}
 
 		/**
-		 * @since DOCME add inception version number
+		 * @since 0.1.0
 		 */
 		@Test
 		void test_padding_nullValue() throws Exception {
 			logTestStart();
 
-			TableStringGenerator generator = TableStringGenerator.DEFAULT.setNullValue("NULL");
+			TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
 
 			String[][] body = { { "1", "2", "3" }, { "1", null, "3" }, { "1", "2", "3" } };
 
@@ -291,20 +340,5 @@ class TableStringGeneratorTest extends TestBase {
 		String actual = generator.toString(new String[][] { { "a", "b" } }, new String[] { "A", "B" });
 
 		assertThat(actual).isEqualTo("A::B\n─::─\na::b");
-	}
-
-	/**
-	 * @since 0.1.0
-	 */
-	@Test
-	void testSetNullValue() throws Exception {
-		logTestStart();
-
-		TableStringGenerator generator = new TableStringGenerator();
-		generator.setNullValue("NULL");
-
-		String actual = generator.toString(new String[][] { { "test", null } });
-
-		assertThat(actual).isEqualTo("test │ NULL");
 	}
 }

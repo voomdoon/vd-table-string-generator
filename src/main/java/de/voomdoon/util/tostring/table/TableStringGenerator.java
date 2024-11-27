@@ -22,6 +22,43 @@ import de.voomdoon.util.commons.string.StringUtil;
 public class TableStringGenerator {
 
 	/**
+	 * DOCME add JavaDoc for TableStringGenerator
+	 *
+	 * @author André Schulz
+	 *
+	 * @since 0.1.0
+	 */
+	public static class Builder {
+
+		/**
+		 * @since 0.1.0
+		 */
+		private String nullValue = "null";
+
+		/**
+		 * DOCME add JavaDoc for method build
+		 * 
+		 * @since 0.1.0
+		 */
+		public TableStringGenerator build() {
+			return new TableStringGenerator().setNullValue(nullValue);
+		}
+
+		/**
+		 * DOCME add JavaDoc for method setNullValue
+		 * 
+		 * @param string
+		 * @return
+		 * @since 0.1.0
+		 */
+		public Builder setNullValue(String string) {
+			this.nullValue = string;
+
+			return this;
+		}
+	}
+
+	/**
 	 * @author André Schulz
 	 *
 	 * @since 0.1.0
@@ -236,6 +273,15 @@ public class TableStringGenerator {
 	private static final String DEFAULT_COLUMN_SEPARATOR = " │ ";
 
 	/**
+	 * DOCME add JavaDoc for method builder
+	 * 
+	 * @since 0.1.0
+	 */
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	/**
 	 * @since 0.1.0
 	 */
 	private String columnSeparator = DEFAULT_COLUMN_SEPARATOR;
@@ -253,19 +299,6 @@ public class TableStringGenerator {
 	 */
 	public void setColumnSeparator(String columnSeparator) {
 		this.columnSeparator = columnSeparator;
-	}
-
-	/**
-	 * DOCME add JavaDoc for method setNullValue
-	 * 
-	 * @param nullValue
-	 * @return
-	 * @since 0.1.0
-	 */
-	public TableStringGenerator setNullValue(String nullValue) {
-		this.nullValue = nullValue;
-
-		return this;
 	}
 
 	/**
@@ -446,5 +479,18 @@ public class TableStringGenerator {
 	 */
 	private Padding getPadding(String[] row, int iColumn, Context context) {
 		return context.columns[iColumn].getPadding(row[iColumn]);
+	}
+
+	/**
+	 * DOCME add JavaDoc for method setNullValue
+	 * 
+	 * @param nullValue
+	 * @return
+	 * @since 0.1.0
+	 */
+	private TableStringGenerator setNullValue(String nullValue) {
+		this.nullValue = nullValue;
+
+		return this;
 	}
 }
