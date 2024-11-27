@@ -29,6 +29,59 @@ class TableStringGeneratorTest extends TestBase {
 	class BuilderTest extends TestBase {
 
 		/**
+		 * DOCME add JavaDoc for TableStringGeneratorTest.BuilderTest
+		 *
+		 * @author André Schulz
+		 *
+		 * @since 0.1.0
+		 */
+		@Nested
+		class SetColumnSeparatorTest extends TestBase {
+
+			/**
+			 * @since 0.1.0
+			 */
+			@Test
+			void test() throws Exception {
+				logTestStart();
+
+				TableStringGenerator generator = TableStringGenerator.builder().setColumnSeparator(":").build();
+
+				String actual = generator.toString(new String[][] { { "a", "b" } });
+
+				assertThat(actual).isEqualTo("a:b");
+			}
+
+			/**
+			 * @since 0.1.0
+			 */
+			@Test
+			void test_withHeadline() throws Exception {
+				logTestStart();
+
+				TableStringGenerator generator = TableStringGenerator.builder().setColumnSeparator(":").build();
+
+				String actual = generator.toString(new String[][] { { "a", "b" } }, new String[] { "A", "B" });
+
+				assertThat(actual).isEqualTo("A:B\n─:─\na:b");
+			}
+
+			/**
+			 * @since 0.1.0
+			 */
+			@Test
+			void testSet_withHeadline_withMoreThanOneCharacter() throws Exception {
+				logTestStart();
+
+				TableStringGenerator generator = TableStringGenerator.builder().setColumnSeparator("::").build();
+
+				String actual = generator.toString(new String[][] { { "a", "b" } }, new String[] { "A", "B" });
+
+				assertThat(actual).isEqualTo("A::B\n─::─\na::b");
+			}
+		}
+
+		/**
 		 * DOCME add JavaDoc for TableStringGeneratorTest
 		 *
 		 * @author André Schulz
@@ -298,50 +351,5 @@ class TableStringGeneratorTest extends TestBase {
 
 			return actual;
 		}
-	}
-
-	/**
-	 * @since 0.1.0
-	 */
-	@Test
-	void testSetColumnSeparator() throws Exception {
-		logTestStart();
-
-		TableStringGenerator generator = TableStringGenerator.builder().build();
-		generator.setColumnSeparator(":");
-
-		String actual = generator.toString(new String[][] { { "a", "b" } });
-
-		assertThat(actual).isEqualTo("a:b");
-	}
-
-	/**
-	 * @since 0.1.0
-	 */
-	@Test
-	void testSetColumnSeparator_withHeadline() throws Exception {
-		logTestStart();
-
-		TableStringGenerator generator = TableStringGenerator.builder().build();
-		generator.setColumnSeparator(":");
-
-		String actual = generator.toString(new String[][] { { "a", "b" } }, new String[] { "A", "B" });
-
-		assertThat(actual).isEqualTo("A:B\n─:─\na:b");
-	}
-
-	/**
-	 * @since 0.1.0
-	 */
-	@Test
-	void testSetColumnSeparatorWithMoreThanOneCharacter_withHeadline() throws Exception {
-		logTestStart();
-
-		TableStringGenerator generator = TableStringGenerator.builder().build();
-		generator.setColumnSeparator("::");
-
-		String actual = generator.toString(new String[][] { { "a", "b" } }, new String[] { "A", "B" });
-
-		assertThat(actual).isEqualTo("A::B\n─::─\na::b");
 	}
 }

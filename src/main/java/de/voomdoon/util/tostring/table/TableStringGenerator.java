@@ -33,6 +33,11 @@ public class TableStringGenerator {
 		/**
 		 * @since 0.1.0
 		 */
+		private String columnSeparator = DEFAULT_COLUMN_SEPARATOR;
+
+		/**
+		 * @since 0.1.0
+		 */
 		private String nullValue = DEFAULT_NULL_VALUE;
 
 		/**
@@ -41,14 +46,25 @@ public class TableStringGenerator {
 		 * @since 0.1.0
 		 */
 		public TableStringGenerator build() {
-			return new TableStringGenerator(nullValue);
+			return new TableStringGenerator(nullValue, columnSeparator);
 		}
 
 		/**
-		 * DOCME add JavaDoc for method setNullValue
-		 * 
+		 * @param columnSeparator
+		 *            DOCME
+		 * @return this {@link Builder}
+		 * @since 0.1.0
+		 */
+		public Builder setColumnSeparator(String columnSeparator) {
+			this.columnSeparator = columnSeparator;
+
+			return this;
+		}
+
+		/**
 		 * @param string
-		 * @return
+		 *            DOCME
+		 * @return this {@link Builder}
 		 * @since 0.1.0
 		 */
 		public Builder setNullValue(String string) {
@@ -289,7 +305,7 @@ public class TableStringGenerator {
 	/**
 	 * @since 0.1.0
 	 */
-	private String columnSeparator = DEFAULT_COLUMN_SEPARATOR;
+	private final String columnSeparator;
 
 	/**
 	 * @since 0.1.0
@@ -300,19 +316,11 @@ public class TableStringGenerator {
 	 * DOCME add JavaDoc for constructor TableStringGenerator
 	 * 
 	 * @param nullValue
-	 * @since DOCME add inception version number
-	 */
-	private TableStringGenerator(String nullValue) {
-		this.nullValue = nullValue;
-	}
-
-	/**
-	 * DOCME add JavaDoc for method setColumnSeparator
-	 * 
 	 * @param columnSeparator
 	 * @since 0.1.0
 	 */
-	public void setColumnSeparator(String columnSeparator) {
+	private TableStringGenerator(String nullValue, String columnSeparator) {
+		this.nullValue = nullValue;
 		this.columnSeparator = columnSeparator;
 	}
 
