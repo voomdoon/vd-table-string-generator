@@ -1,6 +1,7 @@
 package de.voomdoon.util.tostring.table;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.Nested;
@@ -49,6 +50,19 @@ class TableStringGeneratorTest extends TestBase {
 			String actual = toString(new String[0][0], new String[] { "h1", "h2" });
 
 			assertThat(actual).isEqualTo("h1 │ h2\n───┼───");
+		}
+
+		/**
+		 * @since 0.1.0
+		 */
+		@Test
+		void test_error_IllegalArgumentException_columnCountInconsistent() throws Exception {
+			logTestStart();
+
+			String[][] body = { { "a" } };
+			String[] headline = new String[] { "A", "B" };
+
+			assertThatThrownBy(() -> toString(body, headline)).isInstanceOf(IllegalArgumentException.class);
 		}
 
 		/**

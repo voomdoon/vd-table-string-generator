@@ -8,6 +8,8 @@ import de.voomdoon.util.commons.string.StringUtil;
 
 //FEATURE date and time right alignment 
 
+//FIXME length of null
+
 /**
  * DOCME add JavaDoc for
  *
@@ -396,6 +398,13 @@ public class TableStringGenerator {
 	 */
 	private int getColumnCount(String[][] body, String[] headline) {
 		if (headline != null) {
+			for (int iRow = 0; iRow < body.length; iRow++) {
+				if (body[iRow].length != headline.length) {
+					throw new IllegalArgumentException("Row " + iRow + " has a different column count ("
+							+ body[iRow].length + ") than the headline (" + headline.length + ").");
+				}
+			}
+
 			return headline.length;
 		}
 
