@@ -194,6 +194,27 @@ public class TableStringGenerator {
 
 			return new ColumnContext(column);
 		}
+
+		/**
+		 * @param body
+		 * @param headline
+		 * @param iColumn
+		 * @return
+		 * @since 0.1.0
+		 */
+		private List<String> getColumn(String[][] body, String[] headline, int iColumn) {
+			List<String> result = new ArrayList<>();
+
+			if (headline != null) {
+				result.add(headline[iColumn]);
+			}
+
+			for (int iRow = 0; iRow < body.length; iRow++) {
+				result.add(body[iRow][iColumn]);
+			}
+
+			return result;
+		}
 	}
 
 	/**
@@ -380,27 +401,6 @@ public class TableStringGenerator {
 		} else {
 			return string;
 		}
-	}
-
-	/**
-	 * @param body
-	 * @param headline
-	 * @param iColumn
-	 * @return
-	 * @since 0.1.0
-	 */
-	private List<String> getColumn(String[][] body, String[] headline, int iColumn) {
-		List<String> result = new ArrayList<>();
-
-		if (headline != null) {
-			result.add(headline[iColumn]);
-		}
-
-		for (int iRow = 0; iRow < body.length; iRow++) {
-			result.add(body[iRow][iColumn]);
-		}
-
-		return result;
 	}
 
 	/**
