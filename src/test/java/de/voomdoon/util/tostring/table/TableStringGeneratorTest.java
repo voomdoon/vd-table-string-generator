@@ -344,7 +344,7 @@ class TableStringGeneratorTest extends TestBase {
 
 			String actual = toString(body);
 
-			assertThat(actual).isEqualTo("1.20 │ 2\n1.23 │ 2");
+			assertThat(actual).isEqualTo("1.2  │ 2\n1.23 │ 2");
 		}
 
 		/**
@@ -376,7 +376,7 @@ class TableStringGeneratorTest extends TestBase {
 
 			String actual = toString(body, generator);
 
-			assertThat(actual).isEqualTo("1 │ xxxxxxxxxxxxx\n1 │  12:34:56.780\n1 │  12:34:56.789");
+			assertThat(actual).isEqualTo("1 │ xxxxxxxxxxxxx\n1 │  12:34:56.78 \n1 │  12:34:56.789");
 		}
 
 		/**

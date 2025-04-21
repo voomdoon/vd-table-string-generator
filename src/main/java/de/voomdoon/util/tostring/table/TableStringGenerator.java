@@ -241,7 +241,7 @@ public class TableStringGenerator {
 				}
 
 				return new Padding(" ".repeat(leftPadding), //
-						"0".repeat(rightPadding));
+						" ".repeat(rightPadding));
 			}
 
 			/**
