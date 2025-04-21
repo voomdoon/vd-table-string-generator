@@ -152,6 +152,8 @@ public class TableStringGenerator {
 			private static final Pattern DATE_TIME_PATTERN = Pattern
 					.compile("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}(:\\d{2})?");
 
+			private static final Pattern DECIMAL_ALIGN_PATTERN;
+
 			/**
 			 * @since 0.1.0
 			 */
@@ -166,6 +168,16 @@ public class TableStringGenerator {
 			 * @since 0.1.0
 			 */
 			private static final Pattern TIME_PATTERN = Pattern.compile("\\d{2}:\\d{2}(:\\d{2})?");
+
+			static {
+				DECIMAL_ALIGN_PATTERN = Pattern.compile( //
+						REAL_PATTERN.pattern() //
+								+ "|" + DATE_TIME_MS_PATTERN.pattern()//
+								+ "|" + INTEGER_PATTERN.pattern() //
+								+ "|" + TIME_PATTERN.pattern() //
+								+ "|" + DATE_PATTERN.pattern() //
+								+ "|" + DATE_TIME_PATTERN.pattern());
+			}
 
 			/**
 			 * @since 0.1.0
@@ -210,9 +222,7 @@ public class TableStringGenerator {
 				}
 
 				if (decimalAligned) {
-					if (REAL_PATTERN.matcher(cell).matches() || DATE_TIME_MS_PATTERN.matcher(cell).matches()
-							|| INTEGER_PATTERN.matcher(cell).matches() || TIME_PATTERN.matcher(cell).matches()
-							|| DATE_PATTERN.matcher(cell).matches() || DATE_TIME_PATTERN.matcher(cell).matches()) {
+					if (DECIMAL_ALIGN_PATTERN.matcher(cell).matches()) {
 						return getRealPadding(cell);
 					} else {
 						return getRightAlignedWithPlaceholderPadding(cell);
