@@ -204,15 +204,15 @@ public class TableStringGenerator {
 				if (cell == null) {
 					return getTextPadding(cell);
 				} else if (INTEGER_PATTERN.matcher(cell).matches()) {
-					return getRightAllignedPadding(cell);
+					return getRightAlignedPadding(cell);
 				} else if (REAL_PATTERN.matcher(cell).matches()) {
 					return getRealPadding(cell);
 				} else if (TIME_PATTERN.matcher(cell).matches()) {
-					return getRightAllignedPadding(cell);
+					return getRightAlignedPadding(cell);
 				} else if (DATE_PATTERN.matcher(cell).matches()) {
-					return getRightAllignedPadding(cell);
+					return getRightAlignedPadding(cell);
 				} else if (DATE_TIME_PATTERN.matcher(cell).matches()) {
-					return getRightAllignedPadding(cell);
+					return getRightAlignedPadding(cell);
 				} else if (DATE_TIME_MS_PATTERN.matcher(cell).matches()) {
 					return getRealPadding(cell);
 				}
@@ -249,7 +249,7 @@ public class TableStringGenerator {
 			 * @return
 			 * @since 0.1.0
 			 */
-			private Padding getRightAllignedPadding(String cell) {
+			private Padding getRightAlignedPadding(String cell) {
 				return new Padding(" ".repeat(textWidth - cell.length()), "");
 			}
 
