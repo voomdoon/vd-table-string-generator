@@ -124,6 +124,7 @@ public class TableStringGenerator {
 						int left = cell.length();
 						numberWidthLeft = Math.max(numberWidthLeft, left);
 					} else if (REAL_PATTERN.matcher(cell).matches() || DATE_TIME_MS_PATTERN.matcher(cell).matches()) {
+						decimalAligned = true;
 						int index = cell.indexOf('.');
 						int left = index;
 						int right = cell.length() - index - 1;
@@ -169,6 +170,11 @@ public class TableStringGenerator {
 			/**
 			 * @since 0.1.0
 			 */
+			private boolean decimalAligned = false;
+
+			/**
+			 * @since 0.1.0
+			 */
 			private int numberWidthLeft;
 
 			/**
@@ -199,22 +205,23 @@ public class TableStringGenerator {
 			 * @since 0.1.0
 			 */
 			public Padding getPadding(String cell) {
-				// TODO rework
-
 				if (cell == null) {
 					return getTextPadding(cell);
-				} else if (INTEGER_PATTERN.matcher(cell).matches()) {
+				}
+
+				if (decimalAligned) {
+					if (REAL_PATTERN.matcher(cell).matches() || DATE_TIME_MS_PATTERN.matcher(cell).matches()
+							|| INTEGER_PATTERN.matcher(cell).matches() || TIME_PATTERN.matcher(cell).matches()
+							|| DATE_PATTERN.matcher(cell).matches() || DATE_TIME_PATTERN.matcher(cell).matches()) {
+						return getRealPadding(cell);
+					} else {
+						return getRightAlignedWithPlaceholderPadding(cell);
+					}
+				}
+
+				if (INTEGER_PATTERN.matcher(cell).matches() || TIME_PATTERN.matcher(cell).matches()
+						|| DATE_PATTERN.matcher(cell).matches() || DATE_TIME_PATTERN.matcher(cell).matches()) {
 					return getRightAlignedPadding(cell);
-				} else if (REAL_PATTERN.matcher(cell).matches()) {
-					return getRealPadding(cell);
-				} else if (TIME_PATTERN.matcher(cell).matches()) {
-					return getRightAlignedPadding(cell);
-				} else if (DATE_PATTERN.matcher(cell).matches()) {
-					return getRightAlignedPadding(cell);
-				} else if (DATE_TIME_PATTERN.matcher(cell).matches()) {
-					return getRightAlignedPadding(cell);
-				} else if (DATE_TIME_MS_PATTERN.matcher(cell).matches()) {
-					return getRealPadding(cell);
 				}
 
 				return getTextPadding(cell);
@@ -227,21 +234,31 @@ public class TableStringGenerator {
 			 */
 			private Padding getRealPadding(String cell) {
 				int index = cell.indexOf('.');
-				int left = index;
-				int right = cell.length() - index - 1;
+				int left, right;
+
+				if (index >= 0) {
+					left = index;
+					right = cell.length() - index - 1;
+				} else {
+					left = getLength(cell);
+					right = 0;
+				}
 
 				int leftPadding = numberWidthLeft - left;
 				int rightPadding = numberWidthRight - right;
 
-				int totalWidth = leftPadding + cell.length() + rightPadding;
+				int totalWidth = leftPadding + getLength(cell) + rightPadding;
+				if (index < 0) {
+					totalWidth += 1; // simulate decimal point width
+				}
 
 				if (totalWidth < textWidth) {
-					// Add extra left padding to shift right
 					leftPadding += textWidth - totalWidth;
 				}
 
 				return new Padding(" ".repeat(leftPadding), //
-						" ".repeat(rightPadding));
+						" ".repeat(rightPadding + (index < 0 ? 1 : 0)) // ← simulate the missing dot visually
+				);
 			}
 
 			/**
@@ -251,6 +268,20 @@ public class TableStringGenerator {
 			 */
 			private Padding getRightAlignedPadding(String cell) {
 				return new Padding(" ".repeat(textWidth - cell.length()), "");
+			}
+
+			/**
+			 * DOCME add JavaDoc for method getRightAlignedWithPlaceholderPadding
+			 * 
+			 * @param cell
+			 * @return
+			 * @since DOCME add inception version number
+			 */
+			private Padding getRightAlignedWithPlaceholderPadding(String cell) {
+				int leftPadding = Math.max(0, textWidth - getLength(cell) - numberWidthRight);
+				int rightPadding = 0;
+
+				return new Padding(" ".repeat(leftPadding), " ".repeat(rightPadding));
 			}
 
 			/**
