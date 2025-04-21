@@ -8,9 +8,7 @@ import de.voomdoon.util.commons.string.StringUtil;
 
 //FEATURE date and time right alignment 
 
-//FIXME length of null
-
-//FIXME do not allow config change on instances 
+//FEATURE: support symbols with more space (e.g. ja)
 
 /**
  * DOCME add JavaDoc for
@@ -125,7 +123,7 @@ public class TableStringGenerator {
 					} else if (INTEGER_PATTERN.matcher(cell).matches()) {
 						int left = cell.length();
 						numberWidthLeft = Math.max(numberWidthLeft, left);
-					} else if (REAL_PATTERN.matcher(cell).matches()) {
+					} else if (REAL_PATTERN.matcher(cell).matches() || DATE_TIME_MS_PATTERN.matcher(cell).matches()) {
 						int index = cell.indexOf('.');
 						int left = index;
 						int right = cell.length() - index - 1;
@@ -139,12 +137,34 @@ public class TableStringGenerator {
 			/**
 			 * @since 0.1.0
 			 */
+			private static final Pattern DATE_PATTERN = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
+
+			/**
+			 * @since 0.1.0
+			 */
+			private static final Pattern DATE_TIME_MS_PATTERN = Pattern
+					.compile("(\\d{4}-\\d{2}-\\d{2} )?\\d{2}:\\d{2}:\\d{2}\\.\\d+");
+
+			/**
+			 * @since 0.1.0
+			 */
+			private static final Pattern DATE_TIME_PATTERN = Pattern
+					.compile("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}(:\\d{2})?");
+
+			/**
+			 * @since 0.1.0
+			 */
 			private static final Pattern INTEGER_PATTERN = Pattern.compile("\\d+");
 
 			/**
 			 * @since 0.1.0
 			 */
 			private static final Pattern REAL_PATTERN = Pattern.compile("(\\d?\\.\\d+|\\d+\\.\\d?)");
+
+			/**
+			 * @since 0.1.0
+			 */
+			private static final Pattern TIME_PATTERN = Pattern.compile("\\d{2}:\\d{2}(:\\d{2})?");
 
 			/**
 			 * @since 0.1.0
@@ -184,21 +204,20 @@ public class TableStringGenerator {
 				if (cell == null) {
 					return getTextPadding(cell);
 				} else if (INTEGER_PATTERN.matcher(cell).matches()) {
-					return getIntegerPadding(cell);
+					return getRightAllignedPadding(cell);
 				} else if (REAL_PATTERN.matcher(cell).matches()) {
+					return getRealPadding(cell);
+				} else if (TIME_PATTERN.matcher(cell).matches()) {
+					return getRightAllignedPadding(cell);
+				} else if (DATE_PATTERN.matcher(cell).matches()) {
+					return getRightAllignedPadding(cell);
+				} else if (DATE_TIME_PATTERN.matcher(cell).matches()) {
+					return getRightAllignedPadding(cell);
+				} else if (DATE_TIME_MS_PATTERN.matcher(cell).matches()) {
 					return getRealPadding(cell);
 				}
 
 				return getTextPadding(cell);
-			}
-
-			/**
-			 * @param cell
-			 * @return
-			 * @since 0.1.0
-			 */
-			private Padding getIntegerPadding(String cell) {
-				return new Padding(" ".repeat(textWidth - cell.length()), "");
 			}
 
 			/**
@@ -211,9 +230,27 @@ public class TableStringGenerator {
 				int left = index;
 				int right = cell.length() - index - 1;
 
-				return new Padding(//
-						" ".repeat(numberWidthLeft - left), //
-						"0".repeat(numberWidthRight - right));
+				int leftPadding = numberWidthLeft - left;
+				int rightPadding = numberWidthRight - right;
+
+				int totalWidth = leftPadding + cell.length() + rightPadding;
+
+				if (totalWidth < textWidth) {
+					// Add extra left padding to shift right
+					leftPadding += textWidth - totalWidth;
+				}
+
+				return new Padding(" ".repeat(leftPadding), //
+						"0".repeat(rightPadding));
+			}
+
+			/**
+			 * @param cell
+			 * @return
+			 * @since 0.1.0
+			 */
+			private Padding getRightAllignedPadding(String cell) {
+				return new Padding(" ".repeat(textWidth - cell.length()), "");
 			}
 
 			/**

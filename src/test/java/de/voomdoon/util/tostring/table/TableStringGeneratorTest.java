@@ -233,6 +233,38 @@ class TableStringGeneratorTest extends TestBase {
 		 * @since 0.1.0
 		 */
 		@Test
+		void test_padding_date() throws Exception {
+			logTestStart();
+
+			TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
+
+			String[][] body = { { "1", "22222222222" }, { "1", "2001-02-03" } };
+
+			String actual = toString(body, generator);
+
+			assertThat(actual).isEqualTo("1 │ 22222222222\n1 │  2001-02-03");
+		}
+
+		/**
+		 * @since 0.1.0
+		 */
+		@Test
+		void test_padding_dateTime() throws Exception {
+			logTestStart();
+
+			TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
+
+			String[][] body = { { "1", "22222222222222222222" }, { "1", "2001-02-03 12:34:56" } };
+
+			String actual = toString(body, generator);
+
+			assertThat(actual).isEqualTo("1 │ 22222222222222222222\n1 │  2001-02-03 12:34:56");
+		}
+
+		/**
+		 * @since 0.1.0
+		 */
+		@Test
 		void test_padding_integer_and_word() throws Exception {
 			logTestStart();
 
@@ -291,6 +323,20 @@ class TableStringGeneratorTest extends TestBase {
 		 * @since 0.1.0
 		 */
 		@Test
+		void test_padding_number_real_rightAlingned() throws Exception {
+			logTestStart();
+
+			String[][] body = { { "xxxxx", "2" }, { "12.3", "2" } };
+
+			String actual = toString(body);
+
+			assertThat(actual).isEqualTo("xxxxx │ 2\n 12.3 │ 2");
+		}
+
+		/**
+		 * @since 0.1.0
+		 */
+		@Test
 		void test_padding_number_real_trailingZero() throws Exception {
 			logTestStart();
 
@@ -299,6 +345,38 @@ class TableStringGeneratorTest extends TestBase {
 			String actual = toString(body);
 
 			assertThat(actual).isEqualTo("1.20 │ 2\n1.23 │ 2");
+		}
+
+		/**
+		 * @since 0.1.0
+		 */
+		@Test
+		void test_padding_time_hms() throws Exception {
+			logTestStart();
+
+			TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
+
+			String[][] body = { { "1", "222222222" }, { "1", "12:34" }, { "1", "12:34:56" } };
+
+			String actual = toString(body, generator);
+
+			assertThat(actual).isEqualTo("1 │ 222222222\n1 │     12:34\n1 │  12:34:56");
+		}
+
+		/**
+		 * @since 0.1.0
+		 */
+		@Test
+		void test_padding_time_ms() throws Exception {
+			logTestStart();
+
+			TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
+
+			String[][] body = { { "1", "xxxxxxxxxxxxx" }, { "1", "12:34:56.78" }, { "1", "12:34:56.789" } };
+
+			String actual = toString(body, generator);
+
+			assertThat(actual).isEqualTo("1 │ xxxxxxxxxxxxx\n1 │  12:34:56.780\n1 │  12:34:56.789");
 		}
 
 		/**
