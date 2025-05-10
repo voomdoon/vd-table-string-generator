@@ -33,12 +33,12 @@ public class TableStringGenerator {
 		/**
 		 * @since 0.1.0
 		 */
-		private String columnSeparator = DEFAULT_COLUMN_SEPARATOR;
+		private String columnSeparator = DefaultValues.COLUMN_SEPARATOR;
 
 		/**
 		 * @since 0.1.0
 		 */
-		private String nullValue = DEFAULT_NULL_VALUE;
+		private String nullValue = DefaultValues.NULL_VALUE;
 
 		/**
 		 * DOCME add JavaDoc for method build
@@ -343,6 +343,26 @@ public class TableStringGenerator {
 	}
 
 	/**
+	 * DOCME add JavaDoc for TableStringGenerator
+	 *
+	 * @author André Schulz
+	 *
+	 * @since 0.1.0
+	 */
+	private static final class DefaultValues {
+
+		/**
+		 * @since 0.1.0
+		 */
+		private static final String COLUMN_SEPARATOR = " │ ";
+
+		/**
+		 * @since 0.1.0
+		 */
+		private static final String NULL_VALUE = "";
+	}
+
+	/**
 	 * @author André Schulz
 	 *
 	 * @since 0.1.0
@@ -354,16 +374,6 @@ public class TableStringGenerator {
 	 * @since 0.1.0
 	 */
 	public static final TableStringGenerator DEFAULT = builder().build();
-
-	/**
-	 * @since 0.1.0
-	 */
-	private static final String DEFAULT_COLUMN_SEPARATOR = " │ ";
-
-	/**
-	 * @since 0.1.0
-	 */
-	private static final String DEFAULT_NULL_VALUE = "";
 
 	/**
 	 * DOCME add JavaDoc for method builder
@@ -466,7 +476,7 @@ public class TableStringGenerator {
 			if (iColumn < headline.length - 1) {
 				sb.append("─".repeat(StringUtil.countLeadingSpaces(columnSeparator)));
 
-				if (columnSeparator.equals(DEFAULT_COLUMN_SEPARATOR)) {
+				if (columnSeparator.equals(DefaultValues.COLUMN_SEPARATOR)) {
 					sb.append("┼");
 				} else {
 					sb.append(columnSeparator);
