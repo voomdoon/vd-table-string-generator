@@ -265,6 +265,22 @@ class TableStringGeneratorTest extends TestBase {
 		 * @since 0.1.0
 		 */
 		@Test
+		void test_padding_dateTimeWithDecimal() throws Exception {
+			logTestStart();
+
+			TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
+
+			String[][] body = { { "1", "a" }, { "1", "2001-02-03 12:34:56.789" } };
+
+			String actual = toString(body, generator);
+
+			assertThat(actual).isEqualTo("1 │ a                      \n1 │ 2001-02-03 12:34:56.789");
+		}
+
+		/**
+		 * @since 0.1.0
+		 */
+		@Test
 		void test_padding_integer_and_word() throws Exception {
 			logTestStart();
 

@@ -8,7 +8,9 @@ import de.voomdoon.util.commons.string.StringUtil;
 
 //FEATURE date and time right alignment 
 
-//FEATURE: support symbols with more space (e.g. ja)
+//FEATURE support symbols with more space (e.g. ja)
+
+//FEATURE support headline alignment: center
 
 /**
  * DOCME add JavaDoc for
@@ -150,7 +152,7 @@ public class TableStringGenerator {
 			 * @since 0.1.0
 			 */
 			private static final Pattern DATE_TIME_PATTERN = Pattern
-					.compile("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}(:\\d{2})?");
+					.compile("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}(?::\\d{2}(?:\\.\\d+)?)?");
 
 			private static final Pattern DECIMAL_ALIGN_PATTERN;
 
@@ -221,16 +223,11 @@ public class TableStringGenerator {
 					return getTextPadding(cell);
 				}
 
-				if (decimalAligned) {
-					if (DECIMAL_ALIGN_PATTERN.matcher(cell).matches()) {
-						return getRealPadding(cell);
-					} else {
-						return getRightAlignedWithPlaceholderPadding(cell);
-					}
-				}
+				boolean numberLike = isNumberLike(cell);
 
-				if (INTEGER_PATTERN.matcher(cell).matches() || TIME_PATTERN.matcher(cell).matches()
-						|| DATE_PATTERN.matcher(cell).matches() || DATE_TIME_PATTERN.matcher(cell).matches()) {
+				if (decimalAligned && numberLike) {
+					return getRealPadding(cell);
+				} else if (numberLike) {
 					return getRightAlignedPadding(cell);
 				}
 
@@ -281,20 +278,6 @@ public class TableStringGenerator {
 			}
 
 			/**
-			 * DOCME add JavaDoc for method getRightAlignedWithPlaceholderPadding
-			 * 
-			 * @param cell
-			 * @return
-			 * @since DOCME add inception version number
-			 */
-			private Padding getRightAlignedWithPlaceholderPadding(String cell) {
-				int leftPadding = Math.max(0, textWidth - getLength(cell) - numberWidthRight);
-				int rightPadding = 0;
-
-				return new Padding(" ".repeat(leftPadding), " ".repeat(rightPadding));
-			}
-
-			/**
 			 * @param cell
 			 * @return
 			 * @since 0.1.0
@@ -303,6 +286,17 @@ public class TableStringGenerator {
 				return new Padding(//
 						"", //
 						" ".repeat(textWidth - getLength(cell)));
+			}
+
+			/**
+			 * DOCME add JavaDoc for method isNumberLike
+			 * 
+			 * @param cell
+			 * @return
+			 * @since 0.1.0
+			 */
+			private boolean isNumberLike(String cell) {
+				return DECIMAL_ALIGN_PATTERN.matcher(cell).matches();
 			}
 		}
 
