@@ -6,11 +6,13 @@ import java.util.regex.Pattern;
 
 import de.voomdoon.util.commons.string.StringUtil;
 
-//FEATURE date and time right alignment 
+//FEATURE #14: support cells with line break
 
-//FEATURE support symbols with more space (e.g. ja)
+//FEATURE #16: support configurable alignment
 
-//FEATURE support headline alignment: center
+//FEATURE #26: Support correct width calculation for Unicode symbols
+
+//FEATURE #27: fix alignment for date and time
 
 /**
  * DOCME add JavaDoc for
@@ -363,14 +365,6 @@ public class TableStringGenerator {
 	}
 
 	/**
-	 * @author André Schulz
-	 *
-	 * @since 0.1.0
-	 */
-	private record Padding(String before, String after) {
-	}
-
-	/**
 	 * @since 0.1.0
 	 */
 	public static final TableStringGenerator DEFAULT = builder().build();
@@ -584,5 +578,13 @@ public class TableStringGenerator {
 	 */
 	private Padding getPadding(String[] row, int iColumn, Context context) {
 		return context.columns[iColumn].getPadding(row[iColumn]);
+	}
+
+	/**
+	 * @author André Schulz
+	 *
+	 * @since 0.1.0
+	 */
+	private record Padding(String before, String after) {
 	}
 }
