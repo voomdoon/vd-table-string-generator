@@ -385,6 +385,61 @@ public class TableStringGenerator {
 	}
 
 	/**
+	 * Returns the display width of a single Unicode code point. Wide characters (East Asian Wide/Fullwidth, emoji) are
+	 * counted as 2, others as 1.
+	 *
+	 * @param codePoint
+	 *            the Unicode code point
+	 * @return the display width
+	 * @since 0.1.0
+	 */
+	private static int charDisplayWidth(int codePoint) {
+		// Basic heuristic: CJK Unified Ideographs, Hangul, Hiragana, Katakana, emoji, fullwidth forms
+		Character.UnicodeBlock block = Character.UnicodeBlock.of(codePoint);
+		if (block == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+				|| block == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+				|| block == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B
+				|| block == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+				|| block == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT
+				|| block == Character.UnicodeBlock.HANGUL_SYLLABLES || block == Character.UnicodeBlock.HANGUL_JAMO
+				|| block == Character.UnicodeBlock.HANGUL_COMPATIBILITY_JAMO || block == Character.UnicodeBlock.HIRAGANA
+				|| block == Character.UnicodeBlock.KATAKANA
+				|| block == Character.UnicodeBlock.KATAKANA_PHONETIC_EXTENSIONS
+				|| block == Character.UnicodeBlock.CJK_RADICALS_SUPPLEMENT
+				|| block == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+				|| block == Character.UnicodeBlock.ENCLOSED_CJK_LETTERS_AND_MONTHS
+				|| block == Character.UnicodeBlock.BOPOMOFO || block == Character.UnicodeBlock.BOPOMOFO_EXTENDED
+				|| block == Character.UnicodeBlock.ENCLOSED_ALPHANUMERIC_SUPPLEMENT
+				|| block == Character.UnicodeBlock.ENCLOSED_IDEOGRAPHIC_SUPPLEMENT
+				|| (codePoint >= 0x1F300 && codePoint <= 0x1FAFF) // emoji block
+		) {
+			return 2;
+		}
+		// Other characters are assumed to be single-width
+		return 1;
+	}
+
+	/**
+	 * Calculates the display width of a string, counting double-width characters (CJK, emoji) as width 2.
+	 *
+	 * @param s
+	 *            the string to measure
+	 * @return the display width
+	 */
+	private static int getDisplayWidth(String s) {
+		if (s == null)
+			return 0;
+		int width = 0;
+		int len = s.length();
+		for (int i = 0; i < len;) {
+			int codePoint = s.codePointAt(i);
+			width += charDisplayWidth(codePoint);
+			i += Character.charCount(codePoint);
+		}
+		return width;
+	}
+
+	/**
 	 * @since 0.1.0
 	 */
 	private final String columnSeparator;
@@ -570,7 +625,11 @@ public class TableStringGenerator {
 	 * @since 0.1.0
 	 */
 	private int getLength(String string) {
-		return string == null ? nullValue.length() : string.length();
+		if (string == null) {
+			return nullValue.length();
+		}
+
+		return getDisplayWidth(string);
 	}
 
 	/**

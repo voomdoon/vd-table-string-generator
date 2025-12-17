@@ -429,6 +429,27 @@ class TableStringGeneratorTest extends TestBase {
 		 * @since 0.1.0
 		 */
 		@Test
+		void test_padding_unicodeWidth() throws Exception {
+			logTestStart();
+
+			TableStringGenerator generator = TableStringGenerator.builder().build();
+
+			String[][] body = { { "A", "😊", "B" }, { "A", "B", "C" } };
+
+			String actual = toString(body, generator);
+
+			String expected = """
+					A | 😊 | B
+					A | B  | C
+					""";
+
+			assertThat(actual).isEqualTo(expected);
+		}
+
+		/**
+		 * @since 0.1.0
+		 */
+		@Test
 		void test_padding_word() throws Exception {
 			logTestStart();
 
