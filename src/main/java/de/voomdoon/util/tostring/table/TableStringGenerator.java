@@ -12,17 +12,33 @@ import de.voomdoon.util.commons.string.StringUtil;
 
 //FEATURE #26: Support correct width calculation for Unicode symbols
 
+//FEATURE #31: Separate column separator from column padding
+
 /**
- * DOCME add JavaDoc for
+ * Generates a formatted string representation of a table from a matrix of {@link String} values.
+ * <p>
+ * <ul>
+ * <li>Provides builder-based configuration.</li>
+ * <li>Supports configurable column separators, null value representation, and alignment for numbers and text.</li>
+ * <li>Partially supports Unicode width (may not be fully accurate for all Unicode symbols).</li>
+ * </ul>
+ * <p>
+ * Usage example:
+ * 
+ * <pre>
+ * {@code
+ * String[][] data = { { "A", "1.23" }, { "B", "4.56" } };
+ * String result = TableStringGenerator.DEFAULT.toString(data);
+ * }
+ * </pre>
  *
  * @author André Schulz
- *
  * @since 0.1.0
  */
 public class TableStringGenerator {
 
 	/**
-	 * DOCME add JavaDoc for TableStringGenerator
+	 * Builder for {@link TableStringGenerator}.
 	 *
 	 * @author André Schulz
 	 *
@@ -41,7 +57,9 @@ public class TableStringGenerator {
 		private String nullValue = DefaultValues.NULL_VALUE;
 
 		/**
-		 * DOCME add JavaDoc for method build
+		 * Builds a new {@link TableStringGenerator}.
+		 * 
+		 * @return {@link TableStringGenerator}
 		 * 
 		 * @since 0.1.0
 		 */
@@ -50,8 +68,10 @@ public class TableStringGenerator {
 		}
 
 		/**
+		 * Sets the column separator. Defaults to "{@code  | }".
+		 * 
 		 * @param columnSeparator
-		 *            DOCME
+		 *            The {@link String} to use as column separator
 		 * @return this {@link Builder}
 		 * @since 0.1.0
 		 */
@@ -63,7 +83,7 @@ public class TableStringGenerator {
 
 		/**
 		 * @param string
-		 *            DOCME
+		 *            The {@link String} to use for null values
 		 * @return this {@link Builder}
 		 * @since 0.1.0
 		 */
@@ -97,7 +117,8 @@ public class TableStringGenerator {
 
 				/**
 				 * @param column
-				 * @return
+				 *            List of column values as {@link java.util.List}
+				 * @return maximum text width as int
 				 * @since 0.1.0
 				 */
 				private int getTextWidth(List<String> column) {
@@ -106,6 +127,7 @@ public class TableStringGenerator {
 
 				/**
 				 * @param column
+				 *            List of column values as {@link java.util.List}
 				 * @since 0.1.0
 				 */
 				private void initNumberWidths(List<String> column) {
@@ -116,6 +138,7 @@ public class TableStringGenerator {
 
 				/**
 				 * @param cell
+				 *            Cell value to analyze as {@link String}
 				 * @since 0.1.0
 				 */
 				private void initNumberWidths(String cell) {
@@ -202,8 +225,6 @@ public class TableStringGenerator {
 			private int textWidth;
 
 			/**
-			 * DOCME add JavaDoc for constructor ColumnContext
-			 * 
 			 * @param column
 			 * @since 0.1.0
 			 */
@@ -215,7 +236,8 @@ public class TableStringGenerator {
 
 			/**
 			 * @param cell
-			 * @return
+			 *            cell value as {@link String}
+			 * @return {@link Padding} for the cell
 			 * @since 0.1.0
 			 */
 			public Padding getPadding(String cell) {
@@ -236,7 +258,8 @@ public class TableStringGenerator {
 
 			/**
 			 * @param cell
-			 * @return
+			 *            cell value as {@link String}
+			 * @return {@link Padding} for real-aligned cell
 			 * @since 0.1.0
 			 */
 			private Padding getRealPadding(String cell) {
@@ -270,7 +293,8 @@ public class TableStringGenerator {
 
 			/**
 			 * @param cell
-			 * @return
+			 *            cell value as {@link String}
+			 * @return {@link Padding} for right-aligned cell
 			 * @since 0.1.0
 			 */
 			private Padding getRightAlignedPadding(String cell) {
@@ -279,7 +303,8 @@ public class TableStringGenerator {
 
 			/**
 			 * @param cell
-			 * @return
+			 *            cell value as {@link String}
+			 * @return {@link Padding} for text cell
 			 * @since 0.1.0
 			 */
 			private Padding getTextPadding(String cell) {
@@ -289,10 +314,9 @@ public class TableStringGenerator {
 			}
 
 			/**
-			 * DOCME add JavaDoc for method isNumberLike
-			 * 
 			 * @param cell
-			 * @return
+			 *            cell value as {@link String}
+			 * @return {@code true} if cell is number-like, {@code false} otherwise
 			 * @since 0.1.0
 			 */
 			private boolean isNumberLike(String cell) {
@@ -306,12 +330,13 @@ public class TableStringGenerator {
 		private ColumnContext[] columns;
 
 		/**
-		 * DOCME add JavaDoc for method getColumnContext
-		 * 
 		 * @param body
+		 *            Table body as {@link String} matrix
 		 * @param headline
+		 *            Table headline as {@link String} array
 		 * @param iColumn
-		 * @return
+		 *            Column index as int
+		 * @return new {@link ColumnContext}
 		 * @since 0.1.0
 		 */
 		private Context.ColumnContext createColumnContext(String[][] body, String[] headline, int iColumn) {
@@ -322,9 +347,12 @@ public class TableStringGenerator {
 
 		/**
 		 * @param body
+		 *            Table body as {@link String} matrix
 		 * @param headline
+		 *            Table headline as {@link String} array
 		 * @param iColumn
-		 * @return
+		 *            Column index as int
+		 * @return List of column values as {@link List}
 		 * @since 0.1.0
 		 */
 		private List<String> getColumn(String[][] body, String[] headline, int iColumn) {
@@ -343,8 +371,6 @@ public class TableStringGenerator {
 	}
 
 	/**
-	 * DOCME add JavaDoc for TableStringGenerator
-	 *
 	 * @author André Schulz
 	 *
 	 * @since 0.1.0
@@ -371,13 +397,16 @@ public class TableStringGenerator {
 	}
 
 	/**
+	 * Default {@link TableStringGenerator} instance.
+	 * 
 	 * @since 0.1.0
 	 */
 	public static final TableStringGenerator DEFAULT = builder().build();
 
 	/**
-	 * DOCME add JavaDoc for method builder
+	 * Returns a new {@link Builder} for {@link TableStringGenerator}.
 	 * 
+	 * @return {@link Builder}
 	 * @since 0.1.0
 	 */
 	public static Builder builder() {
@@ -395,10 +424,10 @@ public class TableStringGenerator {
 	private final String nullValue;
 
 	/**
-	 * DOCME add JavaDoc for constructor TableStringGenerator
-	 * 
 	 * @param nullValue
+	 *            The {@link String} to use for null values
 	 * @param columnSeparator
+	 *            The {@link String} to use as column separator
 	 * @since 0.1.0
 	 */
 	private TableStringGenerator(String nullValue, String columnSeparator) {
@@ -407,9 +436,10 @@ public class TableStringGenerator {
 	}
 
 	/**
-	 * DOCME add JavaDoc for method toString
+	 * Converts the given table body to a {@link String}.
 	 * 
 	 * @param body
+	 *            The table body as two-dimensional {@link String} array
 	 * @return {@link String}
 	 * @since 0.1.0
 	 */
@@ -418,11 +448,13 @@ public class TableStringGenerator {
 	}
 
 	/**
-	 * DOCME add JavaDoc for method toString
+	 * Converts the given table body and headline to a {@link String}.
 	 * 
 	 * @param body
+	 *            The table body as two-dimensional {@link String} array
 	 * @param headline
-	 * @return
+	 *            The table headline as {@link String} array
+	 * @return {@link String}
 	 * @since 0.1.0
 	 */
 	public String toString(String[][] body, String[] headline) {
@@ -452,9 +484,13 @@ public class TableStringGenerator {
 
 	/**
 	 * @param row
+	 *            Table row as {@link String} array
 	 * @param sb
+	 *            StringBuilder for result as {@link StringBuilder}
 	 * @param iColumn
+	 *            Column index as int
 	 * @param context
+	 *            Table context as {@link Context}
 	 * @since 0.1.0
 	 */
 	private void appendCell(String[] row, StringBuilder sb, int iColumn, Context context) {
@@ -465,8 +501,11 @@ public class TableStringGenerator {
 
 	/**
 	 * @param headline
+	 *            Table headline as {@link String} array
 	 * @param sb
+	 *            StringBuilder for result as {@link StringBuilder}
 	 * @param context
+	 *            Table context as {@link Context}
 	 * @since 0.1.0
 	 */
 	private void appendHeadlineSeparator(String[] headline, StringBuilder sb, Context context) {
@@ -491,8 +530,11 @@ public class TableStringGenerator {
 
 	/**
 	 * @param row
+	 *            Table row as {@link String} array
 	 * @param sb
+	 *            StringBuilder for result as {@link StringBuilder}
 	 * @param context
+	 *            Table context as {@link Context}
 	 * @since 0.1.0
 	 */
 	private void appendRow(String[] row, StringBuilder sb, Context context) {
@@ -508,11 +550,11 @@ public class TableStringGenerator {
 	}
 
 	/**
-	 * DOCME add JavaDoc for method getContext
-	 * 
 	 * @param body
+	 *            Table body as {@link String} matrix
 	 * @param headline
-	 * @return
+	 *            Table headline as {@link String} array
+	 * @return Context for table as {@link Context}
 	 * @since 0.1.0
 	 */
 	private Context createContext(String[][] body, String[] headline) {
@@ -527,10 +569,9 @@ public class TableStringGenerator {
 	}
 
 	/**
-	 * DOCME add JavaDoc for method format
-	 * 
 	 * @param string
-	 * @return
+	 *            String to format as {@link String}
+	 * @return formatted {@link String}
 	 * @since 0.1.0
 	 */
 	private String format(String string) {
@@ -543,8 +584,10 @@ public class TableStringGenerator {
 
 	/**
 	 * @param body
+	 *            Table body as {@link String} matrix
 	 * @param headline
-	 * @return
+	 *            Table headline as {@link String} array
+	 * @return column count as int
 	 * @since 0.1.0
 	 */
 	private int getColumnCount(String[][] body, String[] headline) {
@@ -563,10 +606,9 @@ public class TableStringGenerator {
 	}
 
 	/**
-	 * DOCME add JavaDoc for method getLength
-	 * 
 	 * @param string
-	 * @return
+	 *            {@link String} to get length of
+	 * @return length of string as int
 	 * @since 0.1.0
 	 */
 	private int getLength(String string) {
@@ -574,12 +616,13 @@ public class TableStringGenerator {
 	}
 
 	/**
-	 * DOCME add JavaDoc for method getPadding
-	 * 
 	 * @param row
+	 *            Table row as {@link String} array
 	 * @param iColumn
+	 *            Column index as int
 	 * @param context
-	 * @return
+	 *            Table context as {@link Context}
+	 * @return {@link Padding} for cell
 	 * @since 0.1.0
 	 */
 	private Padding getPadding(String[] row, int iColumn, Context context) {
