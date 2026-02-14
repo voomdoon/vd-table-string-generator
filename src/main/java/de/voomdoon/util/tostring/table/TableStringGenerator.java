@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import de.voomdoon.util.commons.string.StringUtil;
+import de.voomdoon.util.commons.string.WhitespaceCounter;
 
 //FEATURE #14: support cells with line break
 
@@ -513,7 +513,7 @@ public class TableStringGenerator {
 			sb.append("─".repeat(context.columns[iColumn].textWidth));
 
 			if (iColumn < headline.length - 1) {
-				sb.append("─".repeat(StringUtil.countLeadingSpaces(columnSeparator)));
+				sb.append("─".repeat(WhitespaceCounter.SPACE.countLeading(columnSeparator)));
 
 				if (columnSeparator.equals(DefaultValues.COLUMN_SEPARATOR)) {
 					sb.append("┼");
@@ -521,7 +521,7 @@ public class TableStringGenerator {
 					sb.append(columnSeparator);
 				}
 
-				sb.append("─".repeat(StringUtil.countTrailingSpaces(columnSeparator)));
+				sb.append("─".repeat(WhitespaceCounter.SPACE.countTrailing(columnSeparator)));
 			}
 		}
 
