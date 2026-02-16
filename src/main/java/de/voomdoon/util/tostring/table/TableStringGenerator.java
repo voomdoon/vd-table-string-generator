@@ -264,7 +264,8 @@ public class TableStringGenerator {
 			 */
 			private Padding getRealPadding(String cell) {
 				int index = cell.indexOf('.');
-				int left, right;
+				int left;
+				int right;
 
 				if (index >= 0) {
 					left = index;

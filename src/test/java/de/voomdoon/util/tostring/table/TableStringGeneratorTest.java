@@ -44,7 +44,7 @@ class TableStringGeneratorTest {
 			 * @since 0.1.0
 			 */
 			@Test
-			void test() throws Exception {
+			void test() {
 				logTestStart();
 
 				TableStringGenerator generator = TableStringGenerator.builder().setColumnSeparator(":").build();
@@ -58,7 +58,7 @@ class TableStringGeneratorTest {
 			 * @since 0.1.0
 			 */
 			@Test
-			void test_withHeadline() throws Exception {
+			void test_withHeadline() {
 				logTestStart();
 
 				TableStringGenerator generator = TableStringGenerator.builder().setColumnSeparator(":").build();
@@ -72,7 +72,7 @@ class TableStringGeneratorTest {
 			 * @since 0.1.0
 			 */
 			@Test
-			void testSet_withHeadline_withMoreThanOneCharacter() throws Exception {
+			void testSet_withHeadline_withMoreThanOneCharacter() {
 				logTestStart();
 
 				TableStringGenerator generator = TableStringGenerator.builder().setColumnSeparator("::").build();
@@ -97,7 +97,7 @@ class TableStringGeneratorTest {
 			 * @since 0.1.0
 			 */
 			@Test
-			void test_toString() throws Exception {
+			void test_toString() {
 				TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
 
 				String actual = generator.toString(new String[][] { { "test", null } });
@@ -110,7 +110,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_builder() throws Exception {
+		void test_builder() {
 			Builder actual = TableStringGenerator.builder();
 
 			assertThat(actual).isNotNull();
@@ -129,7 +129,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test() throws Exception {
+		void test() {
 			logTestStart();
 
 			String[][] table = { { "a", "b", "c" } };
@@ -143,7 +143,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_body_empty() throws Exception {
+		void test_body_empty() {
 			logTestStart();
 
 			String actual = toString(new String[0][0], new String[] { "h1", "h2" });
@@ -155,7 +155,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_error_IllegalArgumentException_columnCountInconsistent() throws Exception {
+		void test_error_IllegalArgumentException_columnCountInconsistent() {
 			logTestStart();
 
 			String[][] body = { { "a" } };
@@ -168,7 +168,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding() throws Exception {
+		void test_padding() {
 			logTestStart();
 
 			String[][] table = { { "aa", "b" } };
@@ -210,7 +210,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_empty() throws Exception {
+		void test_empty() {
 			String actual = toString(new String[0][0]);
 
 			assertThat(actual).isBlank();
@@ -220,7 +220,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_null() throws Exception {
+		void test_null() {
 			String[][] body = { { "1", null, "2" } };
 
 			String actual = toString(body);
@@ -232,7 +232,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding_date() throws Exception {
+		void test_padding_date() {
 			TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
 
 			String[][] body = { { "1", "22222222222" }, { "1", "2001-02-03" } };
@@ -246,7 +246,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding_dateTime() throws Exception {
+		void test_padding_dateTime() {
 			TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
 
 			String[][] body = { { "1", "22222222222222222222" }, { "1", "2001-02-03 12:34:56" } };
@@ -260,7 +260,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding_dateTimeWithDecimal() throws Exception {
+		void test_padding_dateTimeWithDecimal() {
 			TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
 
 			String[][] body = { { "1", "a" }, { "1", "2001-02-03 12:34:56.789" } };
@@ -274,7 +274,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding_integer_and_word() throws Exception {
+		void test_padding_integer_and_word() {
 			String[][] body = { { "1", "2" }, { "aa", "b" }, { "a", "b" } };
 
 			String actual = toString(body);
@@ -286,7 +286,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding_nullValue() throws Exception {
+		void test_padding_nullValue() {
 			TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
 
 			String[][] body = { { "1", "2", "3" }, { "1", null, "3" }, { "1", "2", "3" } };
@@ -300,7 +300,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding_number_integer() throws Exception {
+		void test_padding_number_integer() {
 			String[][] body = { { "1", "2" }, { "11", "2" } };
 
 			String actual = toString(body);
@@ -312,7 +312,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding_number_real_leadingSpace() throws Exception {
+		void test_padding_number_real_leadingSpace() {
 			String[][] body = { { "1.2", "2" }, { "12.3", "2" } };
 
 			String actual = toString(body);
@@ -324,7 +324,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding_number_real_rightAlingned() throws Exception {
+		void test_padding_number_real_rightAlingned() {
 			String[][] body = { { "xxxxx", "2" }, { "12.3", "2" } };
 
 			String actual = toString(body);
@@ -336,7 +336,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding_number_real_trailingZero() throws Exception {
+		void test_padding_number_real_trailingZero() {
 			String[][] body = { { "1.2", "2" }, { "1.23", "2" } };
 
 			String actual = toString(body);
@@ -348,7 +348,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding_number_realAndInteger() throws Exception {
+		void test_padding_number_realAndInteger() {
 			String[][] body = { { "1", "2" }, { "12.3", "2" } };
 
 			String actual = toString(body);
@@ -360,7 +360,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding_time_hms() throws Exception {
+		void test_padding_time_hms() {
 			TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
 
 			String[][] body = { { "1", "222222222" }, { "1", "12:34" }, { "1", "12:34:56" } };
@@ -374,7 +374,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding_time_ms() throws Exception {
+		void test_padding_time_ms() {
 			TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
 
 			String[][] body = { { "1", "xxxxxxxxxxxxx" }, { "1", "12:34:56.78" }, { "1", "12:34:56.789" } };
@@ -388,7 +388,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding_time_msAndNoMs() throws Exception {
+		void test_padding_time_msAndNoMs() {
 			TableStringGenerator generator = TableStringGenerator.builder().setNullValue("NULL").build();
 
 			String[][] body = { { "1", "12:34:56" }, { "1", "12:34:56.789" } };
@@ -402,7 +402,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_padding_word() throws Exception {
+		void test_padding_word() {
 			String[][] body = { { "A", "B" }, { "aa", "b" } };
 
 			String actual = toString(body);
@@ -414,7 +414,7 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Test
-		void test_row1() throws Exception {
+		void test_row1() {
 			String[][] body = { { "a", "b", "c" } };
 
 			String actual = toString(body);
