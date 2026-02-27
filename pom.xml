@@ -13,6 +13,10 @@
 	<artifactId>vd-table-string-generator</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 
+	<name>vd-table-string-generator</name>
+	<description>utility to generate formatted string representations of tables from a matrix of String values</description>
+	<url>https://github.com/voomdoon/vd-table-string-generator</url>
+
 	<scm>
 		<url>https://github.com/voomdoon/vd-table-string-generator</url>
 		<connection>scm:git:https://github.com/voomdoon/vd-table-string-generator.git</connection>
