@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import de.voomdoon.logging.LogManager;
 import de.voomdoon.logging.Logger;
-import de.voomdoon.testing.tests.TestBase;
 import de.voomdoon.util.tostring.table.TableStringGenerator.Builder;
 
 /**
@@ -38,15 +37,13 @@ class TableStringGeneratorTest {
 		 * @since 0.1.0
 		 */
 		@Nested
-		class SetColumnSeparatorTest extends TestBase {
+		class SetColumnSeparatorTest {
 
 			/**
 			 * @since 0.1.0
 			 */
 			@Test
 			void test() {
-				logTestStart();
-
 				TableStringGenerator generator = TableStringGenerator.builder().setColumnSeparator(":").build();
 
 				String actual = generator.toString(new String[][] { { "a", "b" } });
@@ -59,8 +56,6 @@ class TableStringGeneratorTest {
 			 */
 			@Test
 			void test_withHeadline() {
-				logTestStart();
-
 				TableStringGenerator generator = TableStringGenerator.builder().setColumnSeparator(":").build();
 
 				String actual = generator.toString(new String[][] { { "a", "b" } }, new String[] { "A", "B" });
@@ -73,8 +68,6 @@ class TableStringGeneratorTest {
 			 */
 			@Test
 			void testSet_withHeadline_withMoreThanOneCharacter() {
-				logTestStart();
-
 				TableStringGenerator generator = TableStringGenerator.builder().setColumnSeparator("::").build();
 
 				String actual = generator.toString(new String[][] { { "a", "b" } }, new String[] { "A", "B" });
@@ -123,15 +116,18 @@ class TableStringGeneratorTest {
 	 * @since 0.1.0
 	 */
 	@Nested
-	class String2_String_Test extends TestBase {
+	class String2_String_Test {
+
+		/**
+		 * @since 0.1.0
+		 */
+		private final Logger logger = LogManager.getLogger(getClass());
 
 		/**
 		 * @since 0.1.0
 		 */
 		@Test
 		void test() {
-			logTestStart();
-
 			String[][] table = { { "a", "b", "c" } };
 
 			String actual = toString(table, new String[] { "A", "B", "C" });
@@ -144,8 +140,6 @@ class TableStringGeneratorTest {
 		 */
 		@Test
 		void test_body_empty() {
-			logTestStart();
-
 			String actual = toString(new String[0][0], new String[] { "h1", "h2" });
 
 			assertThat(actual).isEqualTo("h1 │ h2\n───┼───");
@@ -156,8 +150,6 @@ class TableStringGeneratorTest {
 		 */
 		@Test
 		void test_error_IllegalArgumentException_columnCountInconsistent() {
-			logTestStart();
-
 			String[][] body = { { "a" } };
 			String[] headline = new String[] { "A", "B" };
 
@@ -169,8 +161,6 @@ class TableStringGeneratorTest {
 		 */
 		@Test
 		void test_padding() {
-			logTestStart();
-
 			String[][] table = { { "aa", "b" } };
 
 			String actual = toString(table, new String[] { "A", "B" });

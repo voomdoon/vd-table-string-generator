@@ -31,12 +31,6 @@
 		<!-- + + + + + + + + + + test dependencies + + + + + + + + + + -->
 		<!-- + + + + + internal voomdoon test dependencies + + + + + -->
 		<dependency>
-			<groupId>de.voomdoon.testing</groupId>
-			<artifactId>vd-testing-util</artifactId>
-			<version>0.2.0-SNAPSHOT</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>de.voomdoon.logging</groupId>
 			<artifactId>vd-logging</artifactId>
 			<version>0.2.0</version>
