@@ -1,5 +1,20 @@
 # vd-table-string-generator
 
+[![CI](https://github.com/voomdoon/vd-table-string-generator/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/voomdoon/vd-table-string-generator/actions/workflows/ci.yml?query=branch%3Amain)
+[![CodeQL Advanced](https://github.com/voomdoon/vd-table-string-generator/actions/workflows/codeql.yml/badge.svg)](https://github.com/voomdoon/vd-table-string-generator/actions/workflows/codeql.yml)
+[![Trivy](https://github.com/voomdoon/vd-table-string-generator/actions/workflows/trivy.yml/badge.svg)](https://github.com/voomdoon/vd-table-string-generator/actions/workflows/trivy.yml)
+[![License](https://img.shields.io/github/license/voomdoon/vd-table-string-generator)](https://github.com/voomdoon/vd-table-string-generator/blob/main/LICENSE)
+[![Java](https://img.shields.io/badge/Java-21-blue)](https://adoptium.net/)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=voomdoon_vd-table-string-generator&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=voomdoon_vd-table-string-generator)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=voomdoon_vd-table-string-generator&metric=coverage)](https://sonarcloud.io/summary/new_code?id=voomdoon_vd-table-string-generator)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=voomdoon_vd-table-string-generator&metric=bugs)](https://sonarcloud.io/summary/new_code?id=voomdoon_vd-table-string-generator)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=voomdoon_vd-table-string-generator&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=voomdoon_vd-table-string-generator)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=voomdoon_vd-table-string-generator&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=voomdoon_vd-table-string-generator)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=voomdoon_vd-table-string-generator&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=voomdoon_vd-table-string-generator)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=voomdoon_vd-table-string-generator&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=voomdoon_vd-table-string-generator)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=voomdoon_vd-table-string-generator&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=voomdoon_vd-table-string-generator)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=voomdoon_vd-table-string-generator&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=voomdoon_vd-table-string-generator)
+
 A Java utility to generate formatted string representations of tables from a matrix of `String` values.
 
 ## Features
