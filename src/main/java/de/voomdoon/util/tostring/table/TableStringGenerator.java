@@ -16,7 +16,6 @@ import de.voomdoon.util.commons.string.WhitespaceCounter;
 
 /**
  * Generates a formatted string representation of a table from a matrix of {@link String} values.
- * <p>
  * <ul>
  * <li>Provides builder-based configuration.</li>
  * <li>Supports configurable column separators, null value representation, and alignment for numbers and text.</li>
@@ -45,6 +44,12 @@ public class TableStringGenerator {
 	 * @since 0.1.0
 	 */
 	public static class Builder {
+
+		/**
+		 * Creates a builder with default values.
+		 */
+		public Builder() {
+		}
 
 		/**
 		 * @since 0.1.0
@@ -82,6 +87,8 @@ public class TableStringGenerator {
 		}
 
 		/**
+		 * Sets the representation used for {@code null} values.
+		 *
 		 * @param string
 		 *            The {@link String} to use for null values
 		 * @return this {@link Builder}
